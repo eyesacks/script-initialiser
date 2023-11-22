@@ -3,7 +3,7 @@
 
 using namespace std;
 
-bool yes_or_no(string phrase){
+bool yes_or_no(string phrase){//used in combination with an if statement for a simple way to implement a yes or no question for the user
     string answer;
     do{
         cout << phrase;
@@ -19,28 +19,28 @@ bool yes_or_no(string phrase){
     return false;
 }
 
-bool is_formatting(char l){
+bool is_formatting(char l){ //returns true if the given char is a tab or a newline
     if(l == '\t' || l == '\n'){
         return true;
     }
     return false;
 }
 
-bool is_punctuation(char l){
+bool is_punctuation(char l){ //returns true if the given char is one of the following characters
     if(l == '.' || l == ',' || l == '!' || l == '?' || l == ':' || l == ';' || l == '(' || l == ')' || l == '[' || l == '/' || l == '"' || l == '-'){
         return true;
     }
     return false;
 }
 
-char better_toupper(char l){
+char better_toupper(char l){ //checks if a char is a letter before making it uppercase
     if(isalpha(l)){
         return toupper(l);
     }
     return l;
 }
 
-void print_file(string filename){
+void print_file(string filename){ //prints entire contents of a file
     ifstream file(filename);
     cout << file.rdbuf();
     file.close();
@@ -57,10 +57,10 @@ int main(){
     cout << "Enter filename: ";
     getline(cin >> ws, filename);
 
-    ifstream script(filename);
+    ifstream script(filename); //opens user chosen file
 
     if(script.is_open()){
-        if(yes_or_no("\nRead file? (y/n): ")){
+        if(yes_or_no("\nRead file? (y/n): ")){ //lets user preview their opened file
             print_file(filename);
         }
 
@@ -68,16 +68,16 @@ int main(){
         
         getline(cin >> ws, new_filename);
 
-        ofstream new_script(new_filename);
+        ofstream new_script(new_filename); //creates new file
 
-        string working((istreambuf_iterator<char>(script)), istreambuf_iterator<char>());
+        string working((istreambuf_iterator<char>(script)), istreambuf_iterator<char>()); //copies contents of opened file into string
         length = working.length();
 
         for(int i = 0; i < length; i++){
-            if(is_punctuation(working[i]) || is_formatting(working[i])){
+            if(is_punctuation(working[i]) || is_formatting(working[i])){ //copies in punctuation and spacing
                 new_script << working[i];
             }
-            if(isalpha(working[i]) || working[i] == 39){
+            if(isalpha(working[i]) || working[i] == 39){ //copies in the first letter of a word, and then skips to the end of the word so as to ignore the rest of the word's letters
                 new_script << better_toupper(working[i]);
                 for(int j = 0; i + j < length; j++){
                     if(!isalpha(working[i + j]) && working[i + j] != 39){
@@ -90,11 +90,11 @@ int main(){
 
         new_script.close();
 
-        if(yes_or_no("\nRead new file? (y/n): ")){            
+        if(yes_or_no("\nRead new file? (y/n): ")){ //lets user preview their new file
             print_file(new_filename);
         }      
     }
-    else{
+    else{ //case in which script.open() fails
         cout << filename << "Cannot open file.\n";
     }
 
