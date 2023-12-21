@@ -77,10 +77,10 @@ int main(){
             if(is_punctuation(working[i]) || is_formatting(working[i])){ //copies in punctuation and spacing
                 new_script << working[i];
             }
-            if(isalpha(working[i]) || working[i] == 39){ //copies in the first letter of a word, and then skips to the end of the word so as to ignore the rest of the word's letters
+            if(isalpha(working[i]) || isdigit(working[i]) || working[i] == 39){ //copies in the first letter of a word, and then skips to the end of the word so as to ignore the rest of the word's letters
                 new_script << better_toupper(working[i]);
                 for(int j = 0; i + j < length; j++){
-                    if(!isalpha(working[i + j]) && working[i + j] != 39){
+                    if(!isalpha(working[i + j]) && working[i + j] != 39 && !isdigit(working[i + j])){
                         i += j - 1;
                         break;
                     }
